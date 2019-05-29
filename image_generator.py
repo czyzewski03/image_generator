@@ -21,9 +21,11 @@ if len(sys.argv) < 2:
 width = int(sys.argv[1])
 height = int(sys.argv[2])
 
+# Creates a new blank image.
 image_file = Image.new('RGB', (width, height))
 image_pixels = image_file.load()
 
+# Each pixel is changed into a randomly-generated color.
 for x in range(width):
     for y in range(height):
         image_pixels[x, y] = generate_RGB()
