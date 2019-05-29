@@ -1,16 +1,31 @@
 #!/usr/bin/env python
 
-import logging
+import sys
+import os
 import random
 
-logging.basicConfig(level=logging.DEBUG,
-                    format= '%(asctime)s - %(levelname)s - %(message)s')
+from PIL import Image
 
-def generate_color_hex():
-    """Generates random values between 0 and 255 for each colour channel and returns a hex colour code."""
+def generate_RGB():
+    """Generates random values between 0 and 255 for each RGB channel and returns them in a tuple."""
     red_value = random.randint(0, 255)
     green_value = random.randint(0, 255)
     blue_value = random.randint(0, 255)
-    return f'#{red_value:02x}{green_value:02x}{blue_value:02x}'
+    return (red_value, green_value, blue_value)
 
-print(generate_color_hex())
+
+# Checks that the width and height arguments have been provided and stores them.
+if len(sys.argv) < 2:
+    print('Usage: py image_generator.py [width] [height]')
+    sys.exit()
+width = int(sys.argv[1])
+height = int(sys.argv[2])
+
+image_file = Image.new('RGB', (width, height))
+image_pixels = image_file.load()
+
+for x in range(width):
+    for y in range(height):
+        image_pixels[x, y] = generate_RGB()
+
+image_file.save('image.png')
